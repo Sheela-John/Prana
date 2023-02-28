@@ -3,6 +3,7 @@ package Pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,16 +18,6 @@ public class Profile_clinician extends TestBase {
 	WebElement fullName;
 	@FindBy(xpath="/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[1]")
 	WebElement specialization;
-	@FindBy(xpath="//*[@id=\"container\"]/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[1]/input")
-	WebElement therapist;
-	@FindBy(xpath="//*[@id=\"container\"]/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[2]/input")
-	WebElement physiotherapist;
-	@FindBy(xpath="//*[@id=\"container\"]/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[3]/input")
-	WebElement physiotherapy_Assistant;
-	@FindBy(xpath="//*[@id=\"container\"]/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[4]/input")
-	WebElement nutritionist;
-	@FindBy(xpath="//*[@id=\"container\"]/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[5]/input")
-	WebElement personal_Trainer;
 	
 	@FindBy(xpath="/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[1]/div[5]/div/div[1]/div/input")
 	WebElement DOB;
@@ -56,6 +47,10 @@ public class Profile_clinician extends TestBase {
 	
 	@FindBy(xpath="/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/div/div/div/button")
 	WebElement updateProfile;
+	@FindBy(xpath="//*[@id=\"container\"]/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[1]/span")
+	WebElement Specialization;
+	@FindBy(xpath="//*[@id=\"container\"]/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[7]/ng-multiselect-dropdown/div/div[1]/span")
+	WebElement Clinic;
 	public Profile_clinician() {
 		PageFactory.initElements(driver, this);
 	}
@@ -66,154 +61,115 @@ public class Profile_clinician extends TestBase {
 		profile.click();
 		
 	}
-	public void addProfileData(String fname,String special,String special1,String dob,String address1,String email1,String semail,String exp,String gender,String mNumber,String clinic1,String clinic2) throws InterruptedException
+	public void addProfileData(String fname,String special,String dob,String address1,String email1,String semail,String exp,String gender,String mNumber,String clinic1) throws InterruptedException
 	{
 		fullName.clear();
 		fullName.sendKeys(fname);
 		specialization.click();
-		
 		toSelectSpecialization(special);
-	
-		
-		toSelectSpecialization(special1);
-		
-		
 		DOB.clear();
 		DOB.sendKeys(dob);
 		address.clear();
 		address.sendKeys(address1);
-		
+		Actions action = new Actions(driver);
+		WebElement we = driver.findElement(By.xpath("//*[@id=\"container\"]/div/app-clinician-profile/div[2]/form/div/div[3]/div[1]/div[8]"));
+		Thread.sleep(3000);
+		action.moveToElement(we).click().build().perform();
+		toSelectClinic(clinic1);
 		email.clear();
 		email.sendKeys(email1);
 		secondary_Email.clear();
 		secondary_Email.sendKeys(semail);
 		experience.clear();
 		experience.sendKeys(exp);
+		 JavascriptExecutor executor = (JavascriptExecutor) driver;
 		if(gender.contains("Male"))
 		{
-			try {
-			     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[1]/div[11]/div[2]/div[1]/div/div[1]/input")).click();
-			  } catch (Exception e) {
-			     JavascriptExecutor executor = (JavascriptExecutor) driver;
-			     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[1]/div[11]/div[2]/div[1]/div/div[1]/input")));
-			  }
+			executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[1]/div[11]/div[2]/div[1]/div/div[1]/input")));
 		}
 		else if(gender.contains("Female"))
 		{
-			try {
-			     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[1]/div[11]/div[2]/div[1]/div/div[2]/input")).click();
-			  } catch (Exception e) {
-			     JavascriptExecutor executor = (JavascriptExecutor) driver;
-			     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[1]/div[11]/div[2]/div[1]/div/div[2]/input")));
-			  }
+			  executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[1]/div[11]/div[2]/div[1]/div/div[2]/input")));  
 		}
 		else
 		{
-			try {
-			     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[1]/div[11]/div[2]/div[1]/div/div[3]/input")).click();
-			  } catch (Exception e) {
-			     JavascriptExecutor executor = (JavascriptExecutor) driver;
-			     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[1]/div[11]/div[2]/div[1]/div/div[3]/input")));
-			  }
+			    executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[1]/div[11]/div[2]/div[1]/div/div[3]/input")));
 		}
 		
 		mobileNumber.clear();
 		mobileNumber.sendKeys(mNumber);
-		
-		clinic_Name.click();
-		
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[7]/ng-multiselect-dropdown/div/div[2]/ul[1]/li[1]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[7]/ng-multiselect-dropdown/div/div[2]/ul[1]/li[1]/input")));
-		  }
-		toSelectClinic(clinic1);
-		
-		toSelectClinic(clinic2);
-		updateProfile.click();
 		Thread.sleep(5000);
+		//clinic_Name.click();
+		//  executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[7]/ng-multiselect-dropdown/div/div[2]/ul[1]/li[1]/input")));
+	
+		updateProfile.click();
+		Thread.sleep(9000);
 		
 	}
-	public void toSelectClinic(String clinic1)
+	public void toSelectClinic(String clinic) throws InterruptedException
 	{
-		if(clinic1.contains("Grafton Clinic") )
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[7]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[1]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[7]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[1]/input")));
-		  }
+		Clinic.click();
+	
+		String[] conditionarr = clinic.split(","); 
+		
+		for (String con : conditionarr) {
+			{
+			String specxpath = "//input[@aria-label='" + con + "']";		
+			WebElement Spec_dropdown = driver.findElement(By.xpath(specxpath));
+			 ((JavascriptExecutor) driver).executeScript("arguments[0].click();", Spec_dropdown);
+				
+			}
 		}
-		else if(clinic1.contains("Balmoral Medical Centre") )
-		{;
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[7]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[2]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[7]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[2]/input")));
-		  }
-		}
-		else if(clinic1.contains("Hunter's Corner Medical Centre"))
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[7]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[3]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[7]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[3]/input")));
-		  }
-		}
+	
+		//Clinic.click();
+		
 	}
 	public void toSelectSpecialization(String special)
 	{
-		if(special.contains("Therapist") )
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[1]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[1]/input")));
-		  }
-		}
-		else if(special.contains("Physiotherapist") )
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[2]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[2]/input")));
-		  }
-		}
-		else if(special.contains("Physiotherapy Assistant"))
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[3]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[3]/input")));
-		  }
-		}
-		else if(special.contains("Nutritionist"))
-		{
-			
-			try {
-			     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[4]/input")).click();
-			  } catch (Exception e) {
-			     JavascriptExecutor executor = (JavascriptExecutor) driver;
-			     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[4]/input")));
-			  }
-			
-		}
-		else if(special.contains("Personal Trainer"))
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[5]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-clinician-profile/div[2]/form/div/div[3]/div[2]/div[1]/ng-multiselect-dropdown/div/div[2]/ul[2]/li[5]/input")));
-		  }
-		}
+		Specialization.click();
+	String[] conditionarr = special.split(","); 
 	
+	for (String con : conditionarr) {
+		{
+		String specxpath = "//input[@aria-label='" + con  + "']";		
+		WebElement Spec_dropdown = driver.findElement(By.xpath(specxpath));
+		 ((JavascriptExecutor) driver).executeScript("arguments[0].click();", Spec_dropdown);
+		}
+	}
+
+	Specialization.click();
+	}
+	
+	public void toCheckProfileDetails(String fname,String special,String dob,String address1,String email1,String semail,String exp,String gender,String mNumber,String clinic1) throws InterruptedException
+	{
+		if(fullName.getAttribute("value").contains(fname))
+		{
+			if(DOB.getAttribute("value").contains(dob))
+			{
+				if(address.getAttribute("value").contains(address1))
+				{
+					if(email.getAttribute("value").contains(email1))
+					{
+						if(secondary_Email.getAttribute("value").contains(semail))
+						{
+							if(experience.getAttribute("value").contains(exp))
+							{
+								if(mobileNumber.getAttribute("value").contains(mNumber))
+								{
+									System.out.println("Success in Profile");
+								}
+								else {System.out.println("Error in Mobile Number");}
+							}
+							else {System.out.println("Error in Experience");}
+						}
+						else {System.out.println("Error in secondary email");}
+					}
+					else {System.out.println("Error in Email");}
+				}
+				else {System.out.println("Error in Address");}
+			}
+			else {System.out.println("Error in DOB");}
+		}
+		else {System.out.println("Error in Name");}
 	}
 }

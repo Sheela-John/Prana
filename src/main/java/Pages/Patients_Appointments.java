@@ -43,6 +43,7 @@ public class Patients_Appointments extends TestBase {
 					//System.out.println("patient Details : "+patientsList.get(0).getText());
 					try
 					{
+						Thread.sleep(3000);
 						System.out.println("patient Details : "+patientsList.get(i).getText());
 					patientsList.get(i).click();
 					toViewAppointments(status);
@@ -50,6 +51,7 @@ public class Patients_Appointments extends TestBase {
 					}
 					catch(StaleElementReferenceException s)
 					{
+						Thread.sleep(3000);
 						List<WebElement> patientsList1 = driver.findElements(By.xpath("/html/body/app-dashboard/div/main/div/div/app-my-patients/div/div[2]/div[2]/div"));
 						System.out.println("patient Details : "+patientsList1.get(i).getText());
 						patientsList1.get(i).click();

@@ -9,8 +9,8 @@
           <include name="startTest"/>
           <include name="initialization"/>
           <include name="driver_method_close"/>
+          <include name="AppointmentGroupClassTest"/>
           <include name="tearDown"/>
-          <include name="patientsAppointmentsTest"/>
         </methods>
       </class> <!-- testCase.Login_TC -->
     </classes>

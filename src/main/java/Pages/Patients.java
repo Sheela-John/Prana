@@ -9,6 +9,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -133,6 +135,18 @@ public class Patients extends TestBase {
 	
 	@FindBy(xpath="/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/button")
 	WebElement submit;
+	@FindBy(xpath="//*[@id=\"container\"]/div/app-patient-details/div/div[2]/div/div[1]/div/div/div[3]/form/div/div[1]/input")
+	WebElement patientName;
+	@FindBy(xpath="//*[@id=\"phone\"]")
+	WebElement patientPhone;
+	@FindBy(xpath="//*[@id=\"inputPhysicalStreet\"]")
+	WebElement patientLocation;
+	@FindBy(xpath="//*[@id=\"inputDOB\"]")
+	WebElement patientDOB;
+	@FindBy(xpath="//*[@id=\"container\"]/div/app-patient-details/div/div[2]/div/div[1]/div/div/div[3]/form/div/div[12]/input")
+	WebElement patientHeight;
+	@FindBy(xpath="//*[@id=\"container\"]/div/app-patient-details/div/div[2]/div/div[1]/div/div/div[3]/form/div/div[13]/input")
+	WebElement patientWeight;
 	public Patients() {
 		PageFactory.initElements(driver, this);
 	}
@@ -140,58 +154,70 @@ public class Patients extends TestBase {
 	{
 		WebDriverWait wait = new WebDriverWait(driver, 40);
 		WebElement aboutMe= wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/app-dashboard/div/app-sidebar/app-sidebar-nav/app-sidebar-nav-items/app-sidebar-nav-link[2]/a")));
-		patients.click();
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();",patients);	
+		//patients.click();
 	}
 	public void searchPatients(String patientName,String title,String fname,String lname,String dob,String gender,String email,String ethenicGroup,String knownAs1,String whychoosingus,String rname,String hnumber,String mnumber,String wnumber,String description,String condition1,String condition2,String surgery,String medicList,String allergy,String healthIssues,String accidentInjury,String clNumber,String workIntensity,String dateofinjury,String timeOfInjuryHour,String timeofinjuryMinutes,String timeOFInjuryAMPM,String workRelatedInjuryYesNo,String motorRelatedAccidentYesNo,String scene,String location,String venueLocation,String nhiNum,String cOccupation,String eName,String eEmail,String ePhone,String eAddress,String GPTitle,String GPfname,String GPlname,String GPemail,String GPphone,String GPCname,String GPclinicphone,String GPreadCodeName,String AccNum,String GPreadCodes,String GPaddress,String GPclinicaddress) throws InterruptedException
 	{
 		search.sendKeys(patientName+Keys.ENTER);
-		List<WebElement> patientsList = driver.findElements(By.xpath("/html/body/app-dashboard/div/main/div/div/app-my-patients/div/div[2]/div[2]/div"));
-		for(int i=0;i<patientsList.size();i++)
-		{
-		 {
-			//System.out.println("patient Details : "+patientsList.get(0).getText());
-			try
-			{
-				System.out.println("patient Details : "+patientsList.get(i).getText());
-			patientsList.get(i).click();
+		Thread.sleep(4000);
+		Actions action = new Actions(driver);
+		WebElement we = driver.findElement(By.xpath("//*[@id=\"container\"]/div/app-my-patients/div/div[2]/div[2]/div"));
+		
+		action.moveToElement(we).click().build().perform();
+		Thread.sleep(6000);		
 			toviewPersonnalDetails();
-		//	profile.click();
-			consentForm.click();
-			toEnterPesonalDetailsForConsentForm(title, fname, lname, dob, gender, email, ethenicGroup, knownAs1, whychoosingus, rname, hnumber, mnumber, wnumber);
-			toEnterMedicalDetailsForConsentForm( description, condition1, condition2, surgery, medicList, allergy, healthIssues, accidentInjury, clNumber, workIntensity, dateofinjury, timeOfInjuryHour, timeofinjuryMinutes, timeOFInjuryAMPM, workRelatedInjuryYesNo, motorRelatedAccidentYesNo, scene, location);
-			toEnterVenueInformation(venueLocation);
-			toEnterProfessionalInformation(nhiNum, cOccupation, eName, eEmail, ePhone, eAddress);
-			toEnterGPInformation(GPTitle, GPfname, GPlname, GPemail, GPphone, GPCname, GPclinicphone, GPreadCodeName, AccNum, GPreadCodes, GPaddress,GPclinicaddress);
-			consentForTreatment();
+//			consentForm.click();
+//			toEnterPesonalDetailsForConsentForm(title, fname, lname, dob, gender, email, ethenicGroup, knownAs1, whychoosingus, rname, hnumber, mnumber, wnumber);
+//			toEnterMedicalDetailsForConsentForm( description, condition1, condition2, surgery, medicList, allergy, healthIssues, accidentInjury, clNumber, workIntensity, dateofinjury, timeOfInjuryHour, timeofinjuryMinutes, timeOFInjuryAMPM, workRelatedInjuryYesNo, motorRelatedAccidentYesNo, scene, location);
+//			toEnterVenueInformation(venueLocation);
+//			toEnterProfessionalInformation(nhiNum, cOccupation, eName, eEmail, ePhone, eAddress);
+//			toEnterGPInformation(GPTitle, GPfname, GPlname, GPemail, GPphone, GPCname, GPclinicphone, GPreadCodeName, AccNum, GPreadCodes, GPaddress,GPclinicaddress);
+//			consentForTreatment();
+			
 			}
-			catch(StaleElementReferenceException s)
-			{
-				List<WebElement> patientsList1 = driver.findElements(By.xpath("/html/body/app-dashboard/div/main/div/div/app-my-patients/div/div[2]/div[2]/div"));
-				System.out.println("patient Details : "+patientsList1.get(i).getText());
-				patientsList1.get(i).click();
-				toviewPersonnalDetails();
-			//	profile.click();
-				consentForm.click();
-				toEnterPesonalDetailsForConsentForm(title, fname, lname, dob, gender, email, ethenicGroup, knownAs1, whychoosingus, rname, hnumber, mnumber, wnumber);
-				toEnterMedicalDetailsForConsentForm( description, condition1, condition2, surgery, medicList, allergy, healthIssues, accidentInjury, clNumber, workIntensity, dateofinjury, timeOfInjuryHour, timeofinjuryMinutes, timeOFInjuryAMPM, workRelatedInjuryYesNo, motorRelatedAccidentYesNo, scene, location);
-				toEnterVenueInformation(venueLocation);
-				toEnterProfessionalInformation(nhiNum, cOccupation, eName, eEmail, ePhone, eAddress);
-				toEnterGPInformation(GPTitle, GPfname, GPlname, GPemail, GPphone, GPCname, GPclinicphone, GPreadCodeName, AccNum, GPreadCodes, GPaddress,GPclinicaddress);
-				consentForTreatment();
-			}
-			Thread.sleep(5000);
-			}
-		}
-	}
-	public void toviewPersonnalDetails()
+			
+	public void toviewPersonnalDetails() throws InterruptedException
 	{
-		List<WebElement> patientDetailsList = driver.findElements(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[1]/div/div/div[3]/form/div/div"));
-		System.out.println(patientDetailsList.size());
-		for(int i=0;i<patientDetailsList.size();i++)
+		String[] patientDetails = new String[7];
+		patientDetails[1]=patientName.getAttribute("value");
+		patientDetails[2]=patientPhone.getAttribute("value");
+		patientDetails[3]=patientDOB.getAttribute("value");
+		patientDetails[4]=patientLocation.getAttribute("value");
+		patientDetails[5]=patientHeight.getAttribute("value");
+		patientDetails[6]=patientWeight.getAttribute("value");
+		for(int i=1;i<patientDetails.length;i++)
 		{
-			String details=patientDetailsList.get(i).getText();
-			System.out.println(details);
+			System.out.println(patientDetails[i]);
 		}
+		Logoff log=new Logoff();
+		log.logOff();
+		User_Login ulogin=new User_Login();
+		ulogin.login(prop.getProperty("useremail"), prop.getProperty("userpassword"));
+		Thread.sleep(6000);
+		User_Profile user=new User_Profile();
+		if(user.email.getAttribute("value").contains(patientDetails[1]))
+		{
+			if(user.phone.getAttribute("value").contains(patientDetails[2]))
+			{
+				if(user.DOB.getAttribute("value").contains(patientDetails[3]))
+				{
+					if(user.address.getAttribute("value").contains(patientDetails[4]))
+					{
+						if(user.height.getAttribute("value").contains(patientDetails[5]))
+						{
+							if(user.weight.getAttribute("value").contains(patientDetails[6]))
+							{
+								System.out.println("Success");
+							}
+						}
+								
+					}
+				}
+			}
+			
+		}
+		
 	}
 	public void toEnterPesonalDetailsForConsentForm(String title,String fname,String lname,String dob,String gender,String email,String ethenicGroup,String knownAs1,String whychoosingus,String rname,String hnumber,String mnumber,String wnumber)
 	{
@@ -216,98 +242,17 @@ public class Patients extends TestBase {
 	}
 	public void toSelectMedicalCondition(String condition)
 	{
-		if(condition.contains("Angina") )
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[1]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[1]/input")));
-		  }
+		medicalCondition.click();
+		String[] conditionarr = condition.split(","); 
+		for (String con : conditionarr) {
+			{
+			String specxpath = "//input[@aria-label='" + con + "']";		
+			WebElement Spec_dropdown = driver.findElement(By.xpath(specxpath));
+			 ((JavascriptExecutor) driver).executeScript("arguments[0].click();", Spec_dropdown);	
+			}
 		}
-		else if(condition.contains("Osteoporosis") )
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[2]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[2]/input")));
-		  }
-		}
-		else if(condition.contains("Pacemaker"))
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[3]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[3]/input")));
-		  }
-		}
-		else if(condition.contains("Artificial Implants"))
-		{
-			
-			try {
-			     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[4]/input")).click();
-			  } catch (Exception e) {
-			     JavascriptExecutor executor = (JavascriptExecutor) driver;
-			     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[4]/input")));
-			  }
-			
-		}
-		else if(condition.contains("Diabetes"))
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[5]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[5]/input")));
-		  }
-		}
-		else if(condition.contains("Asthma	Allergies"))
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[6]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[6]/input")));
-		  }
-		}
-		else if(condition.contains("Heart Disease"))
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[7]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[7]/input")));
-		  }
-		}
-		else if(condition.contains("Blood disorders"))
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[8]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[8]/input")));
-		  }
-		}
-		else if(condition.contains("Neurological conditions"))
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[9]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[9]/input")));
-		  }
-		}
-		else if(condition.contains("Aids/HIV"))
-		{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[10]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[2]/div/ng-multiselect-dropdown/div/div[2]/ul[2]/li[10]/input")));
-		  }
-		}
+		
+		
 	
 	}
 	public void toEnterMedicalDetailsForConsentForm(String description,String condition1,String condition2,String surgery,String medicList,String allergy,String healthIssues,String accidentInjury,String clNumber,String workIntensity,String dateofinjury,String timeOfInjuryHour,String timeofinjuryMinutes,String timeOFInjuryAMPM,String workRelatedInjuryYesNo,String motorRelatedAccidentYesNo,String scene,String location)
@@ -330,60 +275,33 @@ public class Patients extends TestBase {
 		Select select2 = new Select(driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[6]/div[3]/div/div/div/div/div[1]/select")));
 		select2.selectByVisibleText(timeOfInjuryHour);
 		timeOfInjuryMinute.sendKeys(timeofinjuryMinutes);
+		 JavascriptExecutor executor = (JavascriptExecutor) driver;
 		if(timeOFInjuryAMPM.contains("AM"))
-		{
-			try {
-			     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[6]/div[3]/div/div/div/div/div[3]/div[1]/label[1]/input")).click();
-			  } catch (Exception e) {
-			     JavascriptExecutor executor = (JavascriptExecutor) driver;
-			     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[6]/div[3]/div/div/div/div/div[3]/div[1]/label[1]/input")));
-			  }
+		{			    
+			executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[6]/div[3]/div/div/div/div/div[3]/div[1]/label[1]/input")));
 		}
 		else
 		{
-			try {
-			     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[6]/div[3]/div/div/div/div/div[3]/div[1]/label[2]/input")).click();
-			  } catch (Exception e) {
-			     JavascriptExecutor executor = (JavascriptExecutor) driver;
-			     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[6]/div[3]/div/div/div/div/div[3]/div[1]/label[2]/input")));
-			  }
+			
+			     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[6]/div[3]/div/div/div/div/div[3]/div[1]/label[2]/input")));	  
 		}
 		
 		if(workRelatedInjuryYesNo.contains("Yes"))
 		{
-			try {
-			     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[7]/div[1]/div[2]/div/input")).click();
-			  } catch (Exception e) {
-			     JavascriptExecutor executor = (JavascriptExecutor) driver;
 			     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[7]/div[1]/div[2]/div/input")));
-			  }
-		}
+	    }
 		else
 		{
-			try {
-			     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[7]/div[1]/div[3]/div/input")).click();
-			  } catch (Exception e) {
-			     JavascriptExecutor executor = (JavascriptExecutor) driver;
 			     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[7]/div[1]/div[3]/div/input")));
-			  }
 		}
 		if(motorRelatedAccidentYesNo.contains("Yes"))
 		{
-			try {
-			     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[7]/div[2]/div[2]/div/input")).click();
-			  } catch (Exception e) {
-			     JavascriptExecutor executor = (JavascriptExecutor) driver;
+			
 			     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[7]/div[2]/div[2]/div/input")));
-			  }
 		}
 		else
 		{
-			try {
-			     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[7]/div[2]/div[3]/div/input")).click();
-			  } catch (Exception e) {
-			     JavascriptExecutor executor = (JavascriptExecutor) driver;
-			     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[7]/div[2]/div[3]/div/input")));
-			  }
+			     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[7]/div[2]/div[3]/div/input")));	  
 		}
 		Select select3 = new Select(driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[4]/div[8]/div[1]/select")));
 		select3.selectByVisibleText(scene);
@@ -407,12 +325,10 @@ public class Patients extends TestBase {
 			System.out.println(details);
 		}
 		Thread.sleep(8000);
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[6]/div/div[2]/div/div/div[1]/div/div/div[2]/div/div/input")).click();
-		  } catch (Exception e) {
+		
 		     JavascriptExecutor executor = (JavascriptExecutor) driver;
 		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[6]/div/div[2]/div/div/div[1]/div/div/div[2]/div/div/input")));
-		  }
+		  
 		Thread.sleep(8000);
 		List<WebElement> patientVenueDetailsList1 = driver.findElements(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[1]/form/div[6]/div/div[2]/div/div/div[3]/div"));
 		System.out.println(patientVenueDetailsList1.size());
@@ -454,43 +370,19 @@ public class Patients extends TestBase {
 	}
 	public void consentForTreatment()
 	{
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[1]/input")).click();
-		  } catch (Exception e) {
+		
 		     JavascriptExecutor executor = (JavascriptExecutor) driver;
 		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[1]/input")));
-		  }
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[2]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
+		  
 		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[2]/input")));
-		  }
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[3]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
+		 
 		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[3]/input")));
-		  }
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[4]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[4]/input")));
-		  }
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[5]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[5]/input")));
-		  }
-		try {
-		     driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[6]/input")).click();
-		  } catch (Exception e) {
-		     JavascriptExecutor executor = (JavascriptExecutor) driver;
-		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[6]/input")));
-		  }
 		
+		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[4]/input")));
+		 
+		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[5]/input")));
+		 
+		     executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("/html/body/app-dashboard/div/main/div/div/app-patient-details/div/div[2]/div/div[2]/div/div/div/div[5]/app-consent-form/div[2]/div[2]/div/div[6]/input")));
 		submit.click();
 	}
 }
